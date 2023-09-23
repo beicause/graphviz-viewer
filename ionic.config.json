@@ -1,0 +1,7 @@
+{
+  "name": "graphviz-viewer",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue-vite"
+}
