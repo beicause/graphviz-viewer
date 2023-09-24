@@ -1,4 +1,4 @@
-package io.ionic.starter;
+package indie.haozi.graphvizviewer;
 
 import com.getcapacitor.BridgeActivity;
 
