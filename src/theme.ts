@@ -1,21 +1,23 @@
 import { watch, ref } from 'vue';
 import { Preferences } from '@capacitor/preferences'
+import { registerPlugin } from "@capacitor/core";
+import { App } from "@capacitor/app";
 
-const theme = ref("system");
+export const themeMode = ref("system");
+const M = registerPlugin("M") as any
 
-Preferences.get({ key: 'themeMode' }).then(res => theme.value = res.value || "system")
+Preferences.get({ key: 'themeMode' }).then(res => themeMode.value = res.value || "system")
 
-const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+const prefersDark = () => M.getThemeMode ? M.getThemeMode().isDark : window.matchMedia('(prefers-color-scheme: dark)').matches;
 function toggleDarkTheme(shouldAdd: boolean) {
     document.body.classList.toggle('dark', shouldAdd);
 };
-prefersDark.addEventListener('change', (mediaQuery) => theme.value == "system" && toggleDarkTheme(mediaQuery.matches));
 
-watch(theme, async (value: string, _) => {
+watch(themeMode, async (value: string, _) => {
     await Preferences.set({ key: 'themeMode', value });
     switch (value) {
         case "system":
-            toggleDarkTheme(prefersDark.matches);
+            toggleDarkTheme(prefersDark());
             break;
         case "dark":
             toggleDarkTheme(true);
@@ -26,4 +28,6 @@ watch(theme, async (value: string, _) => {
     }
 }, { immediate: true })
 
-export { theme, toggleDarkTheme, prefersDark }
+App.addListener("resume", async () => {
+    themeMode.value === "system" && toggleDarkTheme(prefersDark());
+})

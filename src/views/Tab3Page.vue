@@ -10,7 +10,7 @@
       <ion-list :inset="true">
         <ion-item>
           <ion-label>Theme</ion-label>
-          <ion-radio-group v-model="theme"
+          <ion-radio-group v-model="themeMode"
             style="display: grid;grid-template-columns: 1fr 1fr 1fr;column-gap: 4px;font-size: 10px;">
             <ion-radio justify="end" label-placement="end" value="system">System</ion-radio>
             <ion-radio justify="end" label-placement="end" value="light">Light</ion-radio>
@@ -36,5 +36,5 @@
 
 <script setup>
 import { path } from '@/settings';
-import { theme } from '@/theme';
+import { themeMode } from '@/theme';
 </script>

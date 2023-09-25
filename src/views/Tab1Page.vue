@@ -87,6 +87,8 @@ async function exportDot(type) {
   const size = svgNode.getAttribute("viewBox").split(" ").map(v => v / 2)
   const node = svgNode.cloneNode(true)
   node.setAttribute("viewBox", size.join(" "))
+  node.setAttribute("width", `${size[2]}pt`)
+  node.setAttribute("height", `${size[3]}pt`)
   const xml = new XMLSerializer()
   const svg = xml.serializeToString(node)
   let [writeRes, path] = [null, null]
