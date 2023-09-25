@@ -2,22 +2,25 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
-        <ion-title>Tab 3</ion-title>
+        <ion-title>Settings</ion-title>
       </ion-toolbar>
     </ion-header>
-    <ion-content :fullscreen="true">
-      <ion-header collapse="condense">
-        <ion-toolbar>
-          <ion-title size="large">Tab 3</ion-title>
-        </ion-toolbar>
-      </ion-header>
-
-      <ExploreContainer name="Tab 3 page" />
+    <ion-content>
+      <ion-list-header>Appearance</ion-list-header>
+      <ion-list :inset="true">
+        <ion-item>
+          <ion-label>Theme</ion-label>
+          <ion-radio-group v-model="theme" style="display: grid;grid-template-columns: 1fr 1fr 1fr;column-gap: 4px;font-size: 10px;">
+            <ion-radio justify="end" label-placement="end"  value="system">System</ion-radio>
+            <ion-radio justify="end" label-placement="end" value="light">Light</ion-radio>
+            <ion-radio justify="end" label-placement="end" value="dark">Dark</ion-radio>
+          </ion-radio-group>
+        </ion-item>
+      </ion-list>
     </ion-content>
   </ion-page>
 </template>
 
-<script setup lang="ts">
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue';
-import ExploreContainer from '@/components/ExploreContainer.vue';
+<script setup>
+import { theme } from '@/theme';
 </script>
