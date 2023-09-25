@@ -40,6 +40,7 @@ import { Canvg, presets } from "canvg"
 import { Filesystem, Directory } from "@capacitor/filesystem"
 import { Encoding } from '@capacitor/filesystem';
 import { Toast } from '@capacitor/toast';
+import { path } from '@/settings';
 
 const input_cls = ref(["ion-touched"])
 const input_text = ref(`digraph {
@@ -79,8 +80,8 @@ onMounted(() => {
 })
 
 function genPath(format) {
-  const path = `graphviz_viewer/${format}/${new Date().getTime().toString()}.${format}`
-  return path
+  const _path = path[format] + `/${new Date().getTime().toString()}.${format}`
+  return _path
 }
 async function exportDot(type) {
   const size = svgNode.getAttribute("viewBox").split(" ").map(v => v / 2)
