@@ -18,12 +18,12 @@
         <ion-title>Graphviz Viewer</ion-title>
       </ion-toolbar>
     </ion-header>
-    <ion-content :fullscreen="true">
-      <div style="height: 100%;display: grid;grid-template-rows: 50% 50%;">
+    <ion-content :fullscreen="true" style="padding: 4px;">
+      <div style="height: 100%;display: grid;grid-template-rows: 50% 50%;padding: 0 8px;">
         <div><ion-textarea :placeholder="'Enter Graphviz DOT language'" :class="input_cls" v-model="input_text"
             :error-text="input_error" :style="input_style" />
         </div>
-        <div id="graph"></div>
+        <div ref="graph"></div>
       </div>
     </ion-content>
   </ion-page>
@@ -47,12 +47,12 @@ const input_text = ref(`digraph {
 }`)
 const input_error = ref('')
 const input_style = ref({ height: "100%" })
-
+const graph = ref(null)
 let svgNode = null
 const preset = presets.offscreen()
 
 function renderDot(value) {
-  const div = d3.select("#graph")
+  const div = d3.select(graph.value)
   div.graphviz().scale(0.5)
     .renderDot(value, () => {
       svgNode = div.node().querySelector("svg")
