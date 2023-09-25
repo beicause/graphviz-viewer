@@ -6,11 +6,21 @@
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title> <a @click.prevent="openBrowser"
+              href="https://renenyffenegger.ch/notes/tools/Graphviz/examples/index">reference</a></ion-card-title>
+        </ion-card-header>
+      </ion-card>
       <item-example v-for="example in examples" :key="example.title" v-bind="example"></item-example>
     </ion-content>
   </ion-page>
 </template>
 <script setup>
+import { Browser } from '@capacitor/browser';
+async function openBrowser() {
+  await Browser.open({ url: "https://renenyffenegger.ch/notes/tools/Graphviz/examples/index" })
+}
 const examples = [{
   title: "Dotted edges etc", content: "This example uses a edge's attribute style to draw a dotted edge.",
   dot: `digraph D {
