@@ -1,8 +1,8 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'indie.haozi.graphvizviewer',
-  appName: 'graphviz-viewer',
+  appId: 'indie.haozi.gvviewer',
+  appName: 'gv-viewer',
   webDir: 'dist',
   server: {
     androidScheme: 'https'

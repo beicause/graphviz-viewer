@@ -1,4 +1,4 @@
-package indie.haozi.graphvizviewer
+package indie.haozi.gvviewer
 
 import android.content.res.Configuration
 import android.os.Build
@@ -15,7 +15,7 @@ class MPlugin : Plugin() {
         val json = JSObject().apply {
             val isDark =
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) context.resources.configuration.isNightModeActive
-                else (context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
+                else ((context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES)
             put("isDark", isDark)
         }
         call.resolve(json)

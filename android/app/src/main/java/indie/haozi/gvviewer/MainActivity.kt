@@ -1,4 +1,4 @@
-package indie.haozi.graphvizviewer
+package indie.haozi.gvviewer
 
 import android.os.Bundle
 import com.getcapacitor.BridgeActivity

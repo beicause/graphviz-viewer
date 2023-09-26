@@ -3,9 +3,9 @@ import { watch } from "vue";
 import { reactive } from "vue";
 
 export const path = reactive({
-    svg: "graphviz_viewer/svg",
-    png: "graphviz_viewer/png",
-    gv: "graphviz_viewer/gv"
+    svg: "gv_viewer/svg",
+    png: "gv_viewer/png",
+    gv: "gv_viewer/gv"
 })
 
 Preferences.get({ key: 'storagePath' }).then(res => {

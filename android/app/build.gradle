@@ -4,10 +4,10 @@ plugins {
 }
 
 android {
-    namespace "indie.haozi.graphvizviewer"
+    namespace "indie.haozi.gvviewer"
     compileSdkVersion rootProject.ext.compileSdkVersion
     defaultConfig {
-        applicationId "indie.haozi.graphvizviewer"
+        applicationId "indie.haozi.gvviewer"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
