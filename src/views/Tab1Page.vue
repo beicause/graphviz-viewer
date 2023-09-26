@@ -41,19 +41,14 @@ import { Filesystem, Directory } from "@capacitor/filesystem"
 import { Encoding } from '@capacitor/filesystem';
 import { Toast } from '@capacitor/toast';
 import { path } from '@/settings';
+import { input_cls, input_error, input_style, input_text } from "./state";
 
-const input_cls = ref(["ion-touched"])
-const input_text = ref(`digraph {
-  a -> { b c }
-}`)
-const input_error = ref('')
-const input_style = ref({ height: "100%" })
 const graph = ref(null)
 let svgNode = null
 const preset = presets.offscreen()
 
 function renderDot(value) {
-  const div = d3.select(graph.value)
+  const div = d3.select(graph.value).html("")
   div.graphviz().scale(0.5)
     .renderDot(value, () => {
       svgNode = div.node().querySelector("svg")
