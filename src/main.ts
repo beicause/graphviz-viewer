@@ -22,7 +22,6 @@ import '@ionic/vue/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
-
 import "@/theme"
 import { Toast } from '@capacitor/toast';
 
@@ -36,7 +35,7 @@ router.isReady().then(() => {
 
 let toExit = new Date()
 
-NApp.addListener("backButton",async () => {
+NApp.addListener("backButton", async () => {
   if (new Date().getTime() - toExit.getTime() < 2000) {
     await NApp.exitApp()
   } else {

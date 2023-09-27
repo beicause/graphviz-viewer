@@ -11,9 +11,8 @@ function toggleDarkTheme(shouldAdd: boolean) {
     document.body.classList.toggle('dark', shouldAdd);
 };
 
-watch(themeMode, async (value: string, _) => {
-    await Preferences.set({ key: 'themeMode', value });
-    switch (value) {
+async function setTheme(mode: string) {
+    switch (mode) {
         case "system":
             toggleDarkTheme(await prefersDark());
             break;
@@ -24,10 +23,17 @@ watch(themeMode, async (value: string, _) => {
             toggleDarkTheme(false);
             break;
     }
+}
+watch(themeMode, async (value: string, _) => {
+    await Preferences.set({ key: 'themeMode', value });
+    await setTheme(value)
 })
 
 App.addListener("resume", async () => {
     themeMode.value === "system" && toggleDarkTheme(await prefersDark());
 })
 
-Preferences.get({ key: 'themeMode' }).then(res => themeMode.value = res.value || "system")
+Preferences.get({ key: 'themeMode' }).then(async (res) => {
+    themeMode.value = res.value || "system"
+    await setTheme(themeMode.value)
+})
