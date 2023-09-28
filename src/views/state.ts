@@ -10,7 +10,12 @@ export const input_text = ref(`digraph {
 export const input_error = ref('')
 export const input_style = ref({ height: "100%" })
 
+getIntent()
+
 App.addListener("resume", async () => {
+    getIntent()
+})
+async function getIntent() {
     const res = await MPlugin.getIntentViewText()
     if (res.data) input_text.value = res.data
-})
+}

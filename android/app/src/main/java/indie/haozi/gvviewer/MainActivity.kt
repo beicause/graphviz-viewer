@@ -19,6 +19,10 @@ class MainActivity : BridgeActivity() {
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
+        receiveIntent(intent)
+    }
+
+    private fun receiveIntent(intent: Intent?) {
         when (intent?.action) {
             Intent.ACTION_VIEW -> {
                 val str = contentResolver.openInputStream(intent.data!!)!!.let {

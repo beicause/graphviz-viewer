@@ -28,7 +28,7 @@
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>
                 <data android:mimeType="application/octet-stream"/>
-                <data android:pathPattern=".*\\.(gv|dot|txt)"/>
+                <data android:pathPattern=".*\\.(gv|txt)"/>
             </intent-filter>
         </activity>
 
