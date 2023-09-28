@@ -11,7 +11,7 @@ import com.getcapacitor.annotation.CapacitorPlugin
 @CapacitorPlugin(name = "M")
 class MPlugin : Plugin() {
     @PluginMethod
-    fun getThemeMode(call: PluginCall) {
+    fun getSystemTheme(call: PluginCall) {
         val json = JSObject().apply {
             val isDark =
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) context.resources.configuration.isNightModeActive
@@ -19,5 +19,14 @@ class MPlugin : Plugin() {
             put("isDark", isDark)
         }
         call.resolve(json)
+    }
+
+    @PluginMethod
+    fun getIntentViewText(call: PluginCall) {
+        val json = JSObject().apply {
+            put("data", intentViewStr)
+        }
+        call.resolve(json)
+        intentViewStr = null
     }
 }

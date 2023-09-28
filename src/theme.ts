@@ -1,12 +1,11 @@
 import { watch, ref } from 'vue';
 import { Preferences } from '@capacitor/preferences'
-import { registerPlugin } from "@capacitor/core";
 import { App } from "@capacitor/app";
+import { MPlugin } from './plugin';
 
 export const themeMode = ref("system");
-const M = registerPlugin("M") as any
 
-const prefersDark = async () => M.getThemeMode ? (await M.getThemeMode()).isDark : window.matchMedia('(prefers-color-scheme: dark)').matches;
+const prefersDark = async () => MPlugin.getSystemTheme ? (await MPlugin.getSystemTheme()).isDark : window.matchMedia('(prefers-color-scheme: dark)').matches;
 function toggleDarkTheme(shouldAdd: boolean) {
     document.body.classList.toggle('dark', shouldAdd);
 };
