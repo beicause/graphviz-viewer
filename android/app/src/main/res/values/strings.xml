@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">gv viewer</string>
-    <string name="title_activity_main">gv viewer</string>
+    <string name="app_name">graphviz viewer</string>
+    <string name="title_activity_main">graphviz viewer</string>
     <string name="package_name">indie.haozi.gvviewer</string>
     <string name="custom_url_scheme">indie.haozi.gvviewer</string>
 </resources>
