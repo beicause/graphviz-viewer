@@ -16,6 +16,7 @@ App.addListener("resume", async () => {
     getIntent()
 })
 async function getIntent() {
+    if (!MPlugin) return
     const res = await MPlugin.getIntentViewText()
     if (res.data) input_text.value = res.data
 }

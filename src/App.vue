@@ -1,7 +1,9 @@
 <template>
-  <ion-app>
-    <ion-router-outlet />
-  </ion-app>
+  <div style="background: black;width: 100%;height: 100%;position: absolute;">
+    <ion-app style="max-width: 1136px;margin: auto;">
+      <ion-router-outlet />
+    </ion-app>
+  </div>
 </template>
 
 <script setup lang="ts">

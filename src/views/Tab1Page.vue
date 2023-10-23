@@ -8,9 +8,9 @@
           </ion-button>
           <ion-popover dismissOnSelect trigger="trigger-export" trigger-action="click">
             <ion-list>
-              <ion-item button @click="exportDot('svg')">Share as svg</ion-item>
-              <ion-item button @click="exportDot('png')">Share as png</ion-item>
-              <ion-item button @click="exportDot('gv')">Share as gv(dot)</ion-item>
+              <ion-item button @click="exportDot('svg')">Save as svg</ion-item>
+              <ion-item button @click="exportDot('png')">Save as png</ion-item>
+              <ion-item button @click="exportDot('gv')">Save as gv(dot)</ion-item>
             </ion-list>
 
           </ion-popover>
@@ -42,6 +42,7 @@ import { Encoding } from '@capacitor/filesystem';
 import { Toast } from '@capacitor/toast';
 import { path } from '@/settings';
 import { input_cls, input_error, input_style, input_text } from "./state";
+import { MPlugin } from '@/plugin';
 
 const graph = ref(null)
 let svgNode = null
@@ -79,6 +80,7 @@ function genPath(format) {
   return _path
 }
 async function exportDot(type) {
+  await MPlugin.showInterstitialAd()
   const size = svgNode.getAttribute("viewBox").split(" ").map(v => v / 2)
   const node = svgNode.cloneNode(true)
   node.setAttribute("viewBox", size.join(" "))
