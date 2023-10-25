@@ -5,7 +5,10 @@ import { MPlugin } from './plugin';
 
 export const themeMode = ref("system");
 
-const prefersDark = async () => MPlugin.getSystemTheme ? (await MPlugin.getSystemTheme()).isDark : window.matchMedia('(prefers-color-scheme: dark)').matches;
+const prefersDark = async () => {
+    if (MPlugin && MPlugin.getSystemTheme) return (await MPlugin.getSystemTheme()).isDark
+    return window.matchMedia('(prefers-color-scheme: dark)').matches;
+}
 function toggleDarkTheme(shouldAdd: boolean) {
     document.body.classList.toggle('dark', shouldAdd);
 };
