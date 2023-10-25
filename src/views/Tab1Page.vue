@@ -43,6 +43,7 @@ import { Toast } from '@capacitor/toast';
 import { path } from '@/settings';
 import { input_cls, input_error, input_style, input_text } from "./state";
 import { MPlugin } from '@/plugin';
+import { isPlatform } from '@ionic/vue';
 
 const graph = ref(null)
 let svgNode = null
@@ -80,7 +81,7 @@ function genPath(format) {
   return _path
 }
 async function exportDot(type) {
-  await MPlugin.showInterstitialAd()
+  if (MPlugin) await MPlugin.showInterstitialAd()
   const size = svgNode.getAttribute("viewBox").split(" ").map(v => v / 2)
   const node = svgNode.cloneNode(true)
   node.setAttribute("viewBox", size.join(" "))
@@ -88,36 +89,48 @@ async function exportDot(type) {
   node.setAttribute("height", `${size[3]}pt`)
   const xml = new XMLSerializer()
   const svg = xml.serializeToString(node)
-  let [writeRes, path] = [null, null]
+  let writeRes = null
+  const writeFile = async (_path, _data, encoding = Encoding.UTF8) => {
+    if (isPlatform("android")) {
+      writeRes = await Filesystem.writeFile({
+        path: _path, data: _data, directory: Directory.Documents, encoding
+        , recursive: true
+      })
+    } else {
+      let filename = _path.split("/")
+      filename = filename[filename.length - 1]
+      const file = new File([_data], filename)
+      const url = URL.createObjectURL(file)
+      const tmpLink = document.createElement("a");
+      tmpLink.href = url;
+      tmpLink.download = filename;
+      document.body.appendChild(tmpLink);
+      tmpLink.click();
+      document.body.removeChild(tmpLink);
+      URL.revokeObjectURL(url);
+    }
+  }
   if (type === "svg") {
-    path = genPath("svg")
-    writeRes = await Filesystem.writeFile({
-      path, data: svg, directory: Directory.Documents, encoding: Encoding.UTF8
-      , recursive: true
-    })
+    await writeFile(genPath("svg"), svg)
   } else if (type === "gv") {
-    path = genPath("gv")
-    writeRes = await Filesystem.writeFile({
-      path, data: input_text.value, directory: Directory.Documents, encoding: Encoding.UTF8
-      , recursive: true
-    })
+    await writeFile(genPath("gv"), input_text.value)
   }
   else if (type === "png") {
     const blob = await svg2PngBlob(size[2], size[3], svg)
-    const reader = new FileReader()
-    reader.readAsDataURL(blob)
-    await new Promise((resolve, reject) => {
-      reader.onloadend = async (e) => {
-        path = genPath("png")
-        writeRes = await Filesystem.writeFile({
-          path, data: e.target.result, directory: Directory.Documents, recursive: true
-        })
-        resolve()
-      }
-    })
-
+    if (isPlatform("android")) {
+      const reader = new FileReader()
+      reader.readAsDataURL(blob)
+      await new Promise((resolve, reject) => {
+        reader.onloadend = async (e) => {
+          await writeFile(genPath("png", e.target.result), undefined)
+          resolve()
+        }
+      })
+    } else {
+      await writeFile(genPath("png"), blob, undefined)
+    }
   }
-  await Toast.show({ text: writeRes.uri, duration: 6000 })
+  writeRes && await Toast.show({ text: writeRes.uri, duration: 6000 })
 }
 
 async function svg2PngBlob(width, height, svg) {
