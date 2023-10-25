@@ -18,18 +18,22 @@
           </ion-radio-group>
         </ion-item>
       </ion-list>
-      <ion-list-header>Storage</ion-list-header>
-      <ion-list :inset="true">
-        <ion-item>
-          <ion-input label="svg:&nbsp;documents&nbsp;/" v-model="path.svg"></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-input label="png:&nbsp;documents&nbsp;/" v-model="path.png"></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-input label="gv:&nbsp;&nbsp;&nbsp;documents&nbsp;/" v-model="path.gv"></ion-input>
-        </ion-item>
-      </ion-list>
+
+      <div v-if="isPlatform('android')">
+        <ion-list-header>Storage</ion-list-header>
+        <ion-list :inset="true">
+          <ion-item>
+            <ion-input label="svg:&nbsp;documents&nbsp;/" v-model="path.svg"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input label="png:&nbsp;documents&nbsp;/" v-model="path.png"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input label="gv:&nbsp;&nbsp;&nbsp;documents&nbsp;/" v-model="path.gv"></ion-input>
+          </ion-item>
+        </ion-list>
+      </div>
+
     </ion-content>
   </ion-page>
 </template>
@@ -37,4 +41,5 @@
 <script setup>
 import { path } from '@/settings';
 import { themeMode } from '@/theme';
+import { isPlatform } from '@ionic/vue';
 </script>
