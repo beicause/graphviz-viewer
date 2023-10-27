@@ -1,5 +1,4 @@
-import { registerPlugin } from "@capacitor/core";
-import { isPlatform } from "@ionic/vue";
+import { registerPlugin,Capacitor } from "@capacitor/core";
 
 export interface MPlugin {
     getSystemTheme: () => Promise<{ isDark: boolean }>;
@@ -7,4 +6,4 @@ export interface MPlugin {
     showInterstitialAd: () => Promise<void>
 }
 
-export const MPlugin = isPlatform("android") ? registerPlugin<MPlugin>("M") : null 
+export const MPlugin = Capacitor.isPluginAvailable("M") ? registerPlugin<MPlugin>("M") : null 

@@ -19,7 +19,7 @@
         </ion-item>
       </ion-list>
 
-      <div v-if="isPlatform('android')">
+      <div v-if="Capacitor.isNativePlatform()">
         <ion-list-header>Storage</ion-list-header>
         <ion-list :inset="true">
           <ion-item>
@@ -41,5 +41,5 @@
 <script setup>
 import { path } from '@/settings';
 import { themeMode } from '@/theme';
-import { isPlatform } from '@ionic/vue';
+import { Capacitor } from '@capacitor/core';
 </script>

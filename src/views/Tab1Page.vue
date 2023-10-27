@@ -43,7 +43,7 @@ import { Toast } from '@capacitor/toast';
 import { path } from '@/settings';
 import { input_cls, input_error, input_style, input_text } from "./state";
 import { MPlugin } from '@/plugin';
-import { isPlatform } from '@ionic/vue';
+import { Capacitor } from '@capacitor/core';
 
 const graph = ref(null)
 let svgNode = null
@@ -91,7 +91,7 @@ async function exportDot(type) {
   const svg = xml.serializeToString(node)
   let writeRes = null
   const writeFile = async (_path, _data, encoding = Encoding.UTF8) => {
-    if (isPlatform("android")) {
+    if (Capacitor.isNativePlatform()) {
       writeRes = await Filesystem.writeFile({
         path: _path, data: _data, directory: Directory.Documents, encoding
         , recursive: true
@@ -117,7 +117,7 @@ async function exportDot(type) {
   }
   else if (type === "png") {
     const blob = await svg2PngBlob(size[2], size[3], svg)
-    if (isPlatform("android")) {
+    if (Capacitor.isNativePlatform()) {
       const reader = new FileReader()
       reader.readAsDataURL(blob)
       await new Promise((resolve, reject) => {
