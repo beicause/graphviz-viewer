@@ -47,25 +47,24 @@ import { Capacitor } from '@capacitor/core';
 
 const graph = ref(null)
 let svgNode = null
+let gv=null
 const preset = presets.offscreen()
 
 function renderDot(value) {
-  const div = d3.select(graph.value).html("")
-  div.graphviz().scale(0.5)
-    .renderDot(value, () => {
-      svgNode = div.node().querySelector("svg")
-      const s = d3.select(div.node().querySelector("svg"));
-      s.attr("width", "100%").attr("height", "100%")
+  const div = d3.select(graph.value)
+  gv.renderDot(value, () => {
+    svgNode = div.node().querySelector("svg")
+    const s = d3.select(div.node().querySelector("svg"));
+    s.attr("width", "100%").attr("height", "100%")
 
-      input_style.value.height = "100%"
-      input_cls.value.length === 2 && input_cls.value.pop()
-      input_error.value = ''
-    }).onerror((err) => {
-      input_style.value.height = "calc(100% - 16px)"
-      input_cls.value.length === 1 && input_cls.value.push("ion-invalid")
-      input_error.value = err
-    });
-
+    input_style.value.height = "100%"
+    input_cls.value.length === 2 && input_cls.value.pop()
+    input_error.value = ''
+  }).onerror((err) => {
+    input_style.value.height = "calc(100% - 16px)"
+    input_cls.value.length === 1 && input_cls.value.push("ion-invalid")
+    input_error.value = err
+  });
 }
 
 watchThrottled(input_text, (value, _) => {
@@ -73,6 +72,7 @@ watchThrottled(input_text, (value, _) => {
 }, { throttle: 1000 })
 
 onMounted(() => {
+  gv=d3.select(graph.value).graphviz().scale(0.5)
   renderDot(input_text.value)
 })
 
