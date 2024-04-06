@@ -20,21 +20,20 @@
     </ion-header>
     <ion-content :fullscreen="true" style="padding: 4px;">
       <div style="height: 100%;display: grid;grid-template-rows: 50% 50%;padding: 0 8px;">
-        <div><ion-textarea :placeholder="'Enter Graphviz DOT language'" :class="input_cls" v-model="input_text"
-            :error-text="input_error" :style="input_style" />
-        </div>
-        <div ref="graph"></div>
+          <ion-textarea :placeholder="'Enter Graphviz DOT language'" :class="input_cls"
+            v-model="input_text" fill="solid" :rows="textarea_rows" :error-text="input_error" :style="input_style" />
+        <div ref="el_graph"></div>
       </div>
     </ion-content>
   </ion-page>
 </template>
 
 <script setup>
-import { onMounted } from 'vue';
+import { computed, onMounted } from 'vue';
 import { ref } from 'vue';
 import * as d3 from 'd3'
 import "d3-graphviz"
-import { watchThrottled } from '@vueuse/core'
+import { watchThrottled, useElementSize } from '@vueuse/core'
 import { saveOutline } from "ionicons/icons"
 import { Canvg, presets } from "canvg"
 import { Filesystem, Directory } from "@capacitor/filesystem"
@@ -45,13 +44,19 @@ import { input_cls, input_error, input_style, input_text } from "./state";
 import { MPlugin } from '@/plugin';
 import { Capacitor } from '@capacitor/core';
 
-const graph = ref(null)
+/** @type {import('vue').Ref<HTMLDivElement>} */
+const el_graph = ref(null)
+const { height } = useElementSize(el_graph)
+const font_size = ref(0)
+const textarea_rows = computed(() => {
+  return Math.ceil(height.value / font_size.value)-7
+})
 let svgNode = null
-let gv=null
+let gv = null
 const preset = presets.offscreen()
 
 function renderDot(value) {
-  const div = d3.select(graph.value)
+  const div = d3.select(el_graph.value)
   gv.renderDot(value, () => {
     svgNode = div.node().querySelector("svg")
     const s = d3.select(div.node().querySelector("svg"));
@@ -72,8 +77,9 @@ watchThrottled(input_text, (value, _) => {
 }, { throttle: 1000 })
 
 onMounted(() => {
-  gv=d3.select(graph.value).graphviz().scale(0.5)
+  if (!gv) gv = d3.select(el_graph.value).graphviz({ useWorker: false }).scale(0.5)
   renderDot(input_text.value)
+  font_size.value = parseInt(window.getComputedStyle(el_graph.value, null).getPropertyValue('font-size'));
 })
 
 function genPath(format) {

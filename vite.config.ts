@@ -1,4 +1,3 @@
-import legacy from '@vitejs/plugin-legacy'
 import vue from '@vitejs/plugin-vue'
 import path from 'path'
 import { defineConfig } from 'vite'
@@ -10,16 +9,15 @@ import { IonicResolver } from 'unplugin-vue-components/resolvers'
 export default defineConfig({
   plugins: [
     vue(),
-    legacy(),
     Components({ resolvers: [IonicResolver()] })
   ],
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
     },
-  },
-  test: {
-    globals: true,
-    environment: 'jsdom'
   }
+  // test: {
+  //   globals: true,
+  //   environment: 'jsdom'
+  // }
 })
