@@ -4,7 +4,7 @@
       <ion-toolbar>
         <ion-buttons slot="end">
           <ion-button id="trigger-export" slot="label">
-            <ion-icon slot="icon-only" :icon="saveOutline"></ion-icon>
+            <ion-icon slot="icon-only" :icon="saveOutline" style="background: blue;color: white;"></ion-icon>
           </ion-button>
           <ion-popover dismissOnSelect side="start" trigger="trigger-export" trigger-action="click">
             <ion-list>
