@@ -37,7 +37,6 @@ import { watchThrottled, useElementSize } from '@vueuse/core'
 import { saveOutline } from "ionicons/icons"
 import { Canvg, presets } from "canvg"
 import { Filesystem, Directory } from "@capacitor/filesystem"
-import { Encoding } from '@capacitor/filesystem';
 import { Toast } from '@capacitor/toast';
 import { path } from '@/settings';
 import { input_cls, input_error, input_style, input_text } from "./state";
@@ -96,11 +95,10 @@ async function exportDot(type) {
   const xml = new XMLSerializer()
   const svg = xml.serializeToString(node)
   let writeRes = null
-  const writeFile = async (_path, _data, encoding = Encoding.UTF8) => {
+  const writeFile = async (_path, _data) => {
     if (Capacitor.isNativePlatform()) {
       writeRes = await Filesystem.writeFile({
-        path: _path, data: _data, directory: Directory.Documents, encoding
-        , recursive: true
+        path: _path, data: _data, directory: Directory.Documents,recursive: true
       })
     } else {
       let filename = _path.split("/")
@@ -128,12 +126,12 @@ async function exportDot(type) {
       reader.readAsDataURL(blob)
       await new Promise((resolve, reject) => {
         reader.onloadend = async (e) => {
-          await writeFile(genPath("png", e.target.result), undefined)
+          await writeFile(genPath("png"), e.target.result)
           resolve()
         }
       })
     } else {
-      await writeFile(genPath("png"), blob, undefined)
+      await writeFile(genPath("png"), blob)
     }
   }
   writeRes && await Toast.show({ text: writeRes.uri, duration: 6000 })
