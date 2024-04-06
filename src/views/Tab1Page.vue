@@ -1,12 +1,12 @@
 <template>
-  <ion-page>
+  <ion-page style="max-width: 1136px;margin: auto;">
     <ion-header>
       <ion-toolbar>
         <ion-buttons slot="end">
           <ion-button id="trigger-export" slot="label">
             <ion-icon slot="icon-only" :icon="saveOutline"></ion-icon>
           </ion-button>
-          <ion-popover dismissOnSelect trigger="trigger-export" trigger-action="click">
+          <ion-popover dismissOnSelect side="start" trigger="trigger-export" trigger-action="click">
             <ion-list>
               <ion-item button @click="exportDot('svg')">Save as svg</ion-item>
               <ion-item button @click="exportDot('png')">Save as png</ion-item>

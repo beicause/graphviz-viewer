@@ -1,5 +1,5 @@
 <template>
-  <ion-page>
+  <ion-page style="max-width: 1136px;margin: auto;">
     <ion-header>
       <ion-toolbar>
         <ion-title>Settings</ion-title>
